@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" packages="com.uplus.das" monitorInterval="300">
+    <Appenders>
+	    <Console name="console" target="SYSTEM_OUT">
+	      <PatternLayout pattern="%d %-5level (%c{1.}:%L) - %msg%n"/>
+	    </Console>
+	    
+        <RollingRandomAccessFile  name="file" fileName="/logs/darthVader.log" filePattern="/logs/darthVader_%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="%d [%X{uniqDV}] %-5level (%c{1.}:%L) - %msg%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+        </RollingRandomAccessFile>
+
+        <RollingRandomAccessFile name="oms-file-appender" filePattern="/logs/oms/%d{yyyyMMdd}/oms.001.%d{yyyyMMddHHmm}.log">
+            <PatternLayout pattern="%msg%X{uniqDV}%n" />
+            <Policies>
+                <OmsPolicy />
+            </Policies>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="OMS_LOGGER" level="info" additivity="false">
+            <Appender-ref ref="oms-file-appender" />
+        </Logger>
+    
+        <Root level="debug">
+            <AppenderRef ref="console" />
+        </Root>
+    </Loggers>
+
+</Configuration>
